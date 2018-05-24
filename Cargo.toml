@@ -1,0 +1,6 @@
+[package]
+name = "nth_fib"
+version = "0.1.0"
+authors = ["Derek Blankenship <derekblankenship05@gmail.com>"]
+
+[dependencies]

@@ -1,22 +1,27 @@
 use std::io;    
+use std::collections::HashMap;    
 
 fn main() { 
     println!("Calculating Fibonacci Sequence...");
+    let mut fib_seq: HashMap<u64, u64> = HashMap::new();
+    fib_seq.insert(0, 0);
+    fib_seq.insert(1, 1);
     let term_number = get_term_number();
-    let answer = recursive_fib(term_number);
+    let answer = recursive_fib(term_number, &mut fib_seq);
     println!("The value for term {} of the fibonacci sequence is: {}", term_number, answer);
 }
 
-fn recursive_fib(n: u64) -> u64 {
-    if n == 0 {
-        return 0
+fn recursive_fib(n: u64, fib_seq: &mut HashMap<u64, u64>) -> u64 {
+    {
+        let nth_fib = fib_seq.get(&n);
+        match nth_fib {
+            Some(num) => return *num,
+            _ => (), 
+        }
     }
-    else if n == 1 {
-        return 1 
-    }
-    else {
-        return recursive_fib(n - 1) + recursive_fib(n - 2)
-    }
+    let nth_fib = recursive_fib(n - 1, fib_seq) + recursive_fib(n - 2, fib_seq);
+    fib_seq.insert(n, nth_fib);
+    return nth_fib
 }
 
 fn get_line() -> String {
